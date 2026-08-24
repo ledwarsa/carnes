@@ -19,6 +19,9 @@ if ($method === 'POST') {
     $name = $_POST['name'] ?? '';
     $price = $_POST['price'] ?? '';
     $button_url = $_POST['button_url'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $reference = $_POST['reference'] ?? '';
+    $is_sold_out = isset($_POST['is_sold_out']) ? filter_var($_POST['is_sold_out'], FILTER_VALIDATE_BOOLEAN) : false;
     $imagePath = '';
 
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
@@ -40,6 +43,9 @@ if ($method === 'POST') {
                 if ($name !== '') $product['name'] = $name;
                 if ($price !== '') $product['price'] = $price;
                 if ($button_url !== '') $product['button_url'] = $button_url;
+                if ($description !== '') $product['description'] = $description;
+                if ($reference !== '') $product['reference'] = $reference;
+                if (isset($_POST['is_sold_out'])) $product['is_sold_out'] = $is_sold_out;
                 if ($imagePath !== '') {
                     // Delete old image if it exists
                     if (isset($product['image']) && file_exists(__DIR__ . '/../' . $product['image'])) {
@@ -63,6 +69,9 @@ if ($method === 'POST') {
             'id' => uniqid(),
             'name' => $name,
             'price' => $price,
+            'description' => $description,
+            'reference' => $reference,
+            'is_sold_out' => $is_sold_out,
             'button_url' => $button_url,
             'image' => $imagePath
         ];
