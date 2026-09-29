@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/utils/middleware.php';
 require_once __DIR__ . '/utils/JsonDB.php';
-checkAuth();
 
 header('Content-Type: application/json');
 $db = new JsonDB('products');
@@ -13,6 +12,9 @@ if ($method === 'GET') {
     echo json_encode($products);
     exit;
 }
+
+checkAuth();
+
 
 if ($method === 'POST') {
     $id = $_POST['id'] ?? null;
