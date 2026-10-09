@@ -37,7 +37,7 @@ const api = {
     },
     
     async get(endpoint) {
-        return this.request(`${endpoint}.php`, { method: 'GET' });
+        return this.request(`${endpoint}.php?t=` + new Date().getTime(), { method: 'GET' });
     },
     
     async post(endpoint, body) {

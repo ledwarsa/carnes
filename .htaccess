@@ -1,5 +1,4 @@
 RewriteEngine On
-RewriteBase /carnes/
 
 # Si el archivo o directorio existe, no reescribir
 RewriteCond %{REQUEST_FILENAME} !-f

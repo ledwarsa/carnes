@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combos | C de Carne</title>
+    <link rel="icon" href="uploads/logofull-sinfondo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        #combos-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        @media (max-width: 1200px) {
+            #combos-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 900px) {
+            #combos-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            #combos-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-info">
+                <span>Teléfono 300 000 00 00</span>
+                <span>Bogotá, Colombia</span>
+            </div>
+            <div class="top-cart">
+                <i class="ph ph-shopping-cart"></i>
+                <span class="cart-badge" style="display:none;">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="uploads/logofull-sinfondo.png" style="max-height: 120px;" alt="C de Carne">
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">INICIO</a>
+                <a href="quienes-somos.html">NOSOTROS</a>
+                <a href="productos.html">PRODUCTOS</a>
+                <a href="combos.html" class="active">COMBOS</a>
+                <a href="recetas.html">RECETAS Y TIPS</a>
+                <a href="contacto.html">CONTACTO</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Header Spacing -->
+    <div style="height: 170px; background: #111; width: 100%;"></div>
+
+    <!-- Category Header -->
+    <section style="padding: 60px 0 30px; background-color: var(--light-bg); text-align: center;">
+        <div class="container">
+            <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Nuestros Combos Especiales</h1>
+            <p style="color: #666;">Selección de los mejores cortes con descuento</p>
+        </div>
+    </section>
+
+    <!-- Combos Grid -->
+    <section style="padding: 3rem 0; background-color: var(--light-bg); min-height: 50vh;">
+        <div class="container">
+            <div id="combos-grid" class="products-grid">
+                <!-- Combos will be injected here via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <span class="subtitle" style="color:var(--primary); margin-bottom:1rem; display:block;">CONTÁCTANOS</span>
+                <p>Bogotá, Colombia</p>
+                <p>Tel 300 00 00</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon red"><i class="ph-fill ph-facebook-logo"></i></a>
+                    <a href="#" class="social-icon"><i class="ph-fill ph-instagram-logo"></i></a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="logo">
+                    <img src="uploads/logofull-sinfondo.png" style="max-height: 180px;" alt="C de Carne">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-flex">
+                <span>© Copyright 2026 By C de Carne</span>
+                <span>Terminos & Condiciones | Políticas de privacidad</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/cart.js?v=2"></script>
+    <script src="js/app.js?v=3"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('combos-grid');
+            
+            try {
+                // Fetch combos
+                const comboRes = await fetch('api/combos.php?t=' + new Date().getTime());
+                if (!comboRes.ok) throw new Error('HTTP status ' + comboRes.status);
+                const combos = await comboRes.json();
+                
+                // Fetch products to calculate prices
+                const prodRes = await fetch('api/products.php?t=' + new Date().getTime());
+                if (!prodRes.ok) throw new Error('HTTP status ' + prodRes.status);
+                const products = await prodRes.json();
+                
+                const activeCombos = combos.filter(c => c.is_active !== false);
+
+                if (activeCombos.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">No hay combos disponibles en este momento.</p>';
+                    return;
+                }
+                
+                grid.innerHTML = '';
+                
+                activeCombos.forEach(combo => {
+                    // Calculate original total
+                    let originalTotal = 0;
+                    const comboProds = [];
+                    (combo.products || []).forEach(pid => {
+                        const p = products.find(prod => prod.id === pid);
+                        if (p) {
+                            let price = parseInt(String(p.price).replace(/[^0-9]/g, ''), 10);
+                            if (!isNaN(price)) {
+                                originalTotal += price;
+                                comboProds.push(p);
+                            }
+                        }
+                    });
+                    
+                    const discount = parseFloat(combo.discount) || 0;
+                    const finalTotal = originalTotal - (originalTotal * (discount / 100));
+                    
+                    const isSoldOut = comboProds.some(p => p.is_sold_out === true || p.is_sold_out === "true" || p.is_sold_out === 1);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.style.background = '#fff';
+                    card.style.borderRadius = '8px';
+                    card.style.padding = '1rem';
+                    card.style.textAlign = 'center';
+                    card.style.boxShadow = '0 4px 6px rgba(0,0,0,0.05)';
+                    
+                    const imageHtml = combo.image 
+                        ? '<img src="' + combo.image + '" alt="' + combo.name + '" style="width:100%; height:200px; object-fit:cover; border-radius:4px; margin-bottom:1rem; ' + (isSoldOut ? 'filter: grayscale(100%); opacity:0.6;' : '') + '">' 
+                        : '<div style="height:200px; background:#f5f5f5; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; border-radius:4px;"><i class="ph ph-gift" style="font-size:3rem; color:#ccc;"></i></div>';
+                        
+                    const buyButton = isSoldOut
+                        ? '<span class="btn btn-red-outline" style="opacity:0.5; border-color:#ccc; color:#ccc; background:transparent;">Agotado</span>'
+                        : '<button class="btn btn-red-outline add-to-cart-btn" data-id="' + combo.id + '" data-name="' + combo.name + '" data-price="' + Math.round(finalTotal) + '" data-image="' + (combo.image || '') + '">Añadir Combo</button>';
+
+                    // Generate list of items
+                    const itemsHtml = comboProds.map(p => '<li style="font-size: 0.85rem; color: #666; margin-bottom: 0.2rem;"><i class="ph ph-check" style="color:var(--primary); margin-right:5px;"></i>' + p.name + '</li>').join('');
+
+                    card.innerHTML = imageHtml +
+                        '<div style="font-size: 0.8rem; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold;">-' + discount + '% Dto</div>' +
+                        '<h4 style="margin: 0 0 0.5rem; color: #333; font-size: 1.1rem; height: 50px;">' + combo.name + '</h4>' +
+                        '<ul style="list-style: none; padding: 0; margin-bottom: 1rem; text-align: left; background: #fafafa; padding: 0.5rem; border-radius: 4px; height: 100px; overflow-y: auto;">' +
+                            itemsHtml +
+                        '</ul>' +
+                        '<div style="margin-bottom: 1rem;">' +
+                            '<span style="text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 0.5rem;">$' + Math.round(originalTotal).toLocaleString('es-CO') + '</span>' +
+                            '<span style="color: var(--primary); font-weight: bold; font-size: 1.25rem;">$' + Math.round(finalTotal).toLocaleString('es-CO') + '</span>' +
+                        '</div>' +
+                        buyButton;
+                        
+                    grid.appendChild(card);
+                });
+                
+            } catch (err) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error cargando los combos.</p>';
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>

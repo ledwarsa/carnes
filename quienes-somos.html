@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos - C de Carne</title>
+    <!-- Favicon -->
+    <link rel="icon" href="uploads/logofull-sinfondo.png" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-info">
+                <span>Teléfono 300 000 00 00</span>
+                <span>Bogotá, Colombia</span>
+            </div>
+            <div class="top-cart">
+                <i class="ph ph-shopping-cart"></i>
+                <span class="cart-badge">1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="uploads/logofull-sinfondo.png" style="max-height: 120px;" alt="C de Carne">
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#inicio">INICIO</a>
+                <a href="quienes-somos.html" class="active">NOSOTROS</a>
+                <a href="index.html#productos">PRODUCTOS</a>
+                <a href="combos.html">COMBOS</a>
+                <a href="recetas.html">RECETAS Y TIPS</a>
+                <a href="contacto.html">CONTACTO</a>
+            </nav>
+            <a href="productos.html" class="btn btn-red-outline">Comprar ahora</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" style="min-height: 50vh; padding-top: 150px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('uploads/carnee.jpg') center/cover;">
+        <div class="container hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h2>C DE CARNES</h2>
+            <h1 style="font-size: 3rem; margin-top: 1rem;">Del origen a tu mesa</h1>
+            <p>Calidad, trazabilidad y confianza en cada entrega.</p>
+        </div>
+    </section>
+
+    <!-- Quienes Somos Section -->
+    <section class="about-section" style="padding: 5rem 0; background-color: #fff;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+                <div data-aos="fade-right">
+                    <span class="subtitle">NUESTRA HISTORIA</span>
+                    <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem; color: var(--primary-dark);">¿Quiénes somos?</h2>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">En <strong>C de Carnes</strong> somos una empresa dedicada a la producción, comercialización y distribución de carne de res, cerdo y pollo, comprometida con ofrecer productos de alta calidad, frescos, seguros y confiables.</p>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">Contamos con producción propia, siendo propietarios de nuestros animales, lo que nos permite tener un mayor control sobre el origen de nuestros productos y trabajar con una visión integral de calidad.</p>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">Nuestro compromiso está presente en cada etapa del proceso: desde el origen y manejo de nuestros animales, pasando por el procesamiento y empaque, hasta el transporte y entrega final al cliente.</p>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">Nuestros productos son entregados en empaque al vacío, con la identificación y registros correspondientes, permitiendo llevar un mayor control sobre cada producto y fortalecer la trazabilidad a lo largo de nuestra operación.</p>
+                    <p style="color: #555; line-height: 1.8; margin-bottom: 1rem;">Además, contamos con medios de transporte destinados al manejo y distribución de nuestros productos, bajo las condiciones y reglamentos sanitarios aplicables.</p>
+                    <div style="background: rgba(220,38,38,0.05); border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 4px; margin-top: 2rem;">
+                        <p style="margin: 0; font-weight: 600; color: var(--primary-dark);">En C de Carnes creemos que la confianza comienza cuando el cliente sabe que detrás de cada producto existe un proceso responsable, controlado y transparente.</p>
+                    </div>
+                </div>
+                <div data-aos="fade-left" style="position: relative;">
+                    <img src="uploads/res.jpg" alt="Ganadería" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <img src="uploads/cerdo.jpg" alt="Procesamiento" style="width: 60%; position: absolute; bottom: -40px; left: -40px; border-radius: 8px; border: 8px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mision y Vision Section -->
+    <section class="mission-vision-section" style="padding: 6rem 0; background-color: var(--light-bg);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 3rem;">
+                
+                <!-- Mision -->
+                <div style="background: #fff; padding: 3rem; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);" data-aos="fade-up">
+                    <div style="width: 70px; height: 70px; background: rgba(220,38,38,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: var(--primary);">
+                        <i class="ph-fill ph-target" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary-dark);">Nuestra Misión</h3>
+                    <p style="color: #555; line-height: 1.7; margin-bottom: 1rem;">Ofrecer carne de res, cerdo y pollo de alta calidad, fresca y segura, integrando producción propia, procesos responsables, empaque al vacío, trazabilidad, condiciones adecuadas de salubridad y transporte especializado.</p>
+                    <p style="color: #555; line-height: 1.7;">Buscamos brindar a nuestros clientes una experiencia de compra confiable, práctica y cercana, llevando nuestros productos directamente hasta su hogar o negocio con el compromiso de cuidar cada detalle desde el origen hasta la entrega.</p>
+                </div>
+
+                <!-- Vision -->
+                <div style="background: #fff; padding: 3rem; border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);" data-aos="fade-up" data-aos-delay="100">
+                    <div style="width: 70px; height: 70px; background: rgba(220,38,38,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; color: var(--primary);">
+                        <i class="ph-fill ph-eye" style="font-size: 2.5rem;"></i>
+                    </div>
+                    <h3 style="font-size: 1.8rem; margin-bottom: 1rem; color: var(--primary-dark);">Nuestra Visión</h3>
+                    <p style="color: #555; line-height: 1.7; margin-bottom: 1rem;">Ser una empresa referente en Colombia en la comercialización y distribución de carne de res, cerdo y pollo, reconocida por la calidad de nuestros productos, el control de nuestros procesos, la trazabilidad, la seguridad alimentaria y la confianza que generamos en nuestros clientes.</p>
+                    <p style="color: #555; line-height: 1.7;">Aspiramos a consolidarnos como una marca moderna y confiable, conectando nuestra producción directamente con los consumidores y convirtiéndonos en una opción preferida para quienes buscan calidad, frescura, seguridad y transparencia.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Calidad Section -->
+    <section class="quality-section" style="padding: 5rem 0; background-color: #fff;">
+        <div class="container">
+            <div class="section-heading text-center" data-aos="fade-up">
+                <span class="subtitle">EXCELENCIA EN CADA PASO</span>
+                <h2>Nuestro compromiso con la calidad</h2>
+                <p style="max-width: 700px; margin: 1rem auto 0; color: #555;">En C de Carnes, la calidad no comienza cuando el producto llega al cliente. Comienza desde el origen. Por eso trabajamos para mantener un proceso integral que nos permita cuidar nuestros productos en cada etapa.</p>
+                <div class="heading-line"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.5rem; margin-top: 3rem;">
+                
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="50" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-cow" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Producción propia</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Somos propietarios de nuestros animales, lo que nos permite tener mayor control sobre el origen de nuestros productos.</p>
+                </div>
+
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="100" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-star" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Calidad y selección</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Trabajamos con criterios de calidad para ofrecer carne de res, cerdo y pollo que cumpla con nuestras exigencias.</p>
+                </div>
+
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="150" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-package" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Empaque al vacío</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Nuestros productos son empacados al vacío para favorecer su conservación y protegerlos durante su almacenamiento.</p>
+                </div>
+
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="200" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-clipboard-text" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Trazabilidad y registros</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Cuentan con identificación y registros de lote, facilitando el seguimiento y control dentro de nuestra operación.</p>
+                </div>
+
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="250" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-shield-check" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Salubridad</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Trabajamos bajo estrictas condiciones de higiene orientadas a proteger la calidad e inocuidad de nuestros productos.</p>
+                </div>
+
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="300" style="text-align: center;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-truck" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Transporte especializado</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Contamos con transporte destinado a la distribución bajo las condiciones y reglamentos sanitarios aplicables.</p>
+                </div>
+                
+                <div class="quality-card" data-aos="zoom-in" data-aos-delay="350" style="text-align: center; grid-column: 1 / -1; max-width: 400px; margin: 0 auto;">
+                    <div style="width: 60px; height: 60px; margin: 0 auto 1rem; color: var(--primary);"><i class="ph-fill ph-house-line" style="font-size: 3rem;"></i></div>
+                    <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Entrega a domicilio</h4>
+                    <p style="color: #666; font-size: 0.95rem;">Llevamos nuestros productos directamente hasta la puerta de nuestros clientes, haciendo que comprar carne de calidad sea fácil, práctico y confiable.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <span class="subtitle" style="color:var(--primary); margin-bottom:1rem; display:block;">CONTÁCTANOS</span>
+                <p>Bogotá, Colombia</p>
+                <p>Tel 300 00 00</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon red"><i class="ph-fill ph-facebook-logo"></i></a>
+                    <a href="#" class="social-icon"><i class="ph-fill ph-instagram-logo"></i></a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="logo">
+                    <img src="uploads/logofull-sinfondo.png" style="max-height: 180px;" alt="C de Carne">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-flex">
+                <span>© Copyright 2026 By C de Carne</span>
+                <span>Terminos & Condiciones | Políticas de privacidad</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/cart.js?v=1"></script>
+    <script src="js/app.js?v=3"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+    </script>
+</body>
+</html>

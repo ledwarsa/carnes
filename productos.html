@@ -98,8 +98,9 @@
             </a>
             <nav class="nav-links">
                 <a href="index.html">INICIO</a>
+                <a href="quienes-somos.html">NOSOTROS</a>
                 <a href="productos.html" class="active">PRODUCTOS</a>
-                <a href="index.html#combos">COMBOS</a>
+                <a href="combos.html">COMBOS</a>
                 <a href="index.html#recetas">RECETAS Y TIPS</a>
                 <a href="index.html#contacto">CONTACTO</a>
             </nav>
@@ -142,7 +143,6 @@
                 <p>Tel 300 00 00</p>
                 <div class="social-links">
                     <a href="#" class="social-icon red"><i class="ph-fill ph-facebook-logo"></i></a>
-                    <a href="#" class="social-icon"><i class="ph-fill ph-twitter-logo"></i></a>
                     <a href="#" class="social-icon"><i class="ph-fill ph-instagram-logo"></i></a>
                 </div>
             </div>
@@ -160,7 +160,9 @@
         </div>
     </footer>
 
-    <script src="js/cart.js?v=2"></script>
+    <script src="js/promotions.js"></script>
+    <script src="js/cart.js?v=3"></script>
+    <script src="js/app.js?v=3"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             let allProducts = [];
@@ -168,6 +170,11 @@
             const title = document.getElementById('current-category-title');
             
             try {
+                const promoRes = await fetch('api/promotions.php?t=' + new Date().getTime());
+                let promotions = [];
+                if (promoRes.ok) promotions = await promoRes.json();
+                window.promoEngine = new PromotionEngine(promotions);
+
                 const response = await fetch('api/products.php?t=' + new Date().getTime());
                 if (!response.ok) throw new Error('HTTP status ' + response.status);
                 allProducts = await response.json();
@@ -208,6 +215,20 @@
                 products.forEach(product => {
                     const isSoldOut = product.is_sold_out === true || product.is_sold_out === "true" || product.is_sold_out === 1;
                     
+                    
+                    const promoData = window.promoEngine.applyToProduct(product);
+                    
+                    const priceHtml = promoData.hasPromotion 
+                        ? `
+                        <div style="font-size: 0.8rem; color: var(--primary); text-transform: uppercase; margin-bottom: 0.5rem; font-weight: bold;">-${promoData.discountPercent}% ${promoData.promoName}</div>
+                        <div class="price" style="margin-bottom: 1rem;">
+                            <span style="text-decoration: line-through; color: #999; font-size: 0.9rem; margin-right: 0.5rem;">${promoData.originalPrice.toLocaleString('es-CO')}</span>
+                            <span style="color: var(--primary); font-weight: bold; font-size: 1.25rem;">${promoData.finalPrice.toLocaleString('es-CO')}</span>
+                        </div>`
+                        : `<div class="price">${promoData.originalPrice.toLocaleString('es-CO')}</div>`;
+
+                    const addPrice = promoData.finalPrice;
+                    
                     const card = document.createElement('div');
                     card.className = `product-card`;
                     card.style.background = '#fff';
@@ -222,7 +243,7 @@
                         
                     const buyButton = isSoldOut
                         ? `<span class="btn btn-red-outline" style="opacity:0.5; border-color:#ccc; color:#ccc; background:transparent;">Agotado</span>`
-                        : `<button class="btn btn-red-outline add-to-cart-btn" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-image="${product.image}">Añadir al carrito</button>`;
+                        : `<button class="btn btn-red-outline add-to-cart-btn" data-id="${product.id}" data-name="${product.name}" data-price="${addPrice}" data-image="${product.image}">Añadir al carrito</button>`;
 
                     let priceDisplay = product.price;
                     if (priceDisplay && !isNaN(parseFloat(priceDisplay)) && !priceDisplay.toString().includes('$')) {
@@ -237,7 +258,7 @@
                         ${imageHtml}
                         <div style="font-size: 0.8rem; color: #999; text-transform: uppercase; margin-bottom: 0.5rem;">${product.category || 'General'}</div>
                         <h4 style="margin: 0 0 0.5rem; color: #333; font-size: 1.1rem; height: 50px; overflow: hidden;">${product.name}</h4>
-                        <p style="color: var(--primary); font-weight: bold; font-size: 1.25rem; margin-bottom: 1rem;">${priceDisplay}</p>
+                        ${priceHtml}
                         ${buyButton}
                     `;
                     grid.appendChild(card);

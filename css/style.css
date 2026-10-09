@@ -355,3 +355,186 @@ a {
 .product-card img { width: 100%; height: 180px; object-fit: cover; margin-bottom: 1rem; border-radius: 4px;}
 .product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
 .product-card .price { color: var(--primary); font-weight: 800; font-size: 1.2rem; margin-bottom: 1rem; }
+
+/* Floating WhatsApp Button */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+    color: #FFF;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .why-us-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .origin-text {
+        max-width: 100%;
+        padding-right: 0;
+    }
+    .timeline {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    .timeline::before {
+        display: none;
+    }
+    .timeline-item {
+        width: 100%;
+    }
+}
+
+/* Mobile Menu Logic */
+.mobile-menu-btn {
+    display: none;
+}
+.mobile-logo-area {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        background-color: rgba(17, 17, 17, 0.98);
+        border-bottom: 2px solid var(--primary);
+        padding: 0.5rem 1rem;
+    }
+    .mobile-logo-area {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .mobile-menu-btn {
+        display: block;
+        cursor: pointer;
+    }
+    .nav-content {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    /* Hide links and button by default */
+    .nav-links, .nav-content > .btn {
+        display: none !important;
+    }
+    
+    /* Show when menu is open */
+    .nav-content.menu-open .nav-links {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1rem;
+        gap: 0;
+    }
+    .nav-content.menu-open > .btn {
+        display: block !important;
+        width: 100%;
+        text-align: center;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .nav-links a {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 15px 10px;
+        border-radius: 0;
+        text-align: left;
+        width: 100%;
+        display: block;
+        font-size: 1.1rem;
+    }
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+    .footer-right .logo {
+        align-items: center;
+    }
+    .footer-right .logo-text {
+        text-align: center;
+    }
+    .top-bar-content {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .hero-content {
+        margin-top: 150px;
+    }
+    .categories-grid, .testimonials-grid, .products-grid, #products-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .categories-grid, .testimonials-grid, .products-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+    .collage {
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .collage img {
+        position: relative;
+        width: 100% !important;
+        height: auto !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-links {
+        font-size: 0.9rem;
+    }
+    .container {
+        padding: 0 1rem;
+    }
+    .bottom-flex {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .stats-box {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}

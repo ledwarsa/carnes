@@ -1,8 +1,10 @@
 <?php
+header('Content-Type: application/json');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
 require_once __DIR__ . '/utils/middleware.php';
 require_once __DIR__ . '/utils/JsonDB.php';
-
-header('Content-Type: application/json');
 $db = new JsonDB('products');
 $products = $db->read() ?? [];
 

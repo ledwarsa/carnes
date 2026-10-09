@@ -97,6 +97,8 @@ const app = {
 
         switch(moduleName) {
             case 'productos': await this.initProducts(); break;
+            case 'combos': await this.initCombos(); break;
+            case 'promociones': await this.initPromotions(); break;
             case 'pedidos': await this.initPedidos(); break;
             case 'usuarios': await this.initUsers(); break;
             case 'seo': await this.initSEO(); break;
@@ -107,6 +109,326 @@ const app = {
     },
 
     // --- PRODUCTOS ---
+    // --- COMBOS ---
+    
+    // --- PROMOCIONES ---
+    async initPromotions() {
+        try {
+            this.state.promotions = await api.get('promotions');
+            this.state.products = await api.get('products');
+            this.renderPromotions();
+
+            document.getElementById('promo-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const data = {
+                    id: document.getElementById('promo-id').value,
+                    name: document.getElementById('promo-name').value,
+                    discount: document.getElementById('promo-discount').value,
+                    type: document.getElementById('promo-type').value,
+                    schedule_type: document.getElementById('promo-schedule-type').value,
+                    is_active: document.getElementById('promo-status').checked
+                };
+
+                // Get target ids
+                if (data.type !== 'global') {
+                    const selects = document.getElementById('promo-targets').selectedOptions;
+                    data.target_ids = Array.from(selects).map(opt => opt.value);
+                } else {
+                    data.target_ids = [];
+                }
+
+                // Get schedule data
+                if (data.schedule_type === 'days_of_week') {
+                    const cbs = document.querySelectorAll('input[name="promo-day"]:checked');
+                    data.days = Array.from(cbs).map(cb => parseInt(cb.value));
+                } else if (data.schedule_type === 'date_range') {
+                    data.start_date = document.getElementById('promo-start-date').value;
+                    data.end_date = document.getElementById('promo-end-date').value;
+                }
+
+                try {
+                    await api.post('promotions', data);
+                    app.showToast('Promoción guardada', 'success');
+                    app.closePromoModal();
+                    await this.initPromotions();
+                } catch (err) {
+                    app.showToast('Error al guardar', 'error');
+                }
+            });
+        } catch (error) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '<div style="color:red; padding:20px;"><h3>Error crítico en initPromotions:</h3><pre>' + error.message + '</pre></div>';
+        }
+    },
+
+    renderPromotions() {
+        const tbody = document.getElementById('promos-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        
+        try {
+            if (!this.state.promotions || this.state.promotions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay promociones creados</td></tr>';
+                return;
+            }
+            this.state.promotions.forEach(promo => {
+                const tr = document.createElement('tr');
+                
+                let applyText = 'Todos';
+                if (promo.type === 'category') applyText = 'Categorías: ' + (promo.target_ids || []).join(', ');
+                if (promo.type === 'product') applyText = 'Productos específicos (' + (promo.target_ids || []).length + ')';
+
+                let timeText = 'Siempre';
+                if (promo.schedule_type === 'days_of_week') {
+                    const daysMap = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+                    timeText = (promo.days || []).map(d => daysMap[d]).join(', ');
+                }
+                if (promo.schedule_type === 'date_range') {
+                    timeText = `Del ${promo.start_date} al ${promo.end_date}`;
+                }
+
+                tr.innerHTML = `
+                    <td>${promo.name}</td>
+                    <td>${promo.discount}%</td>
+                    <td>${applyText}</td>
+                    <td>${timeText}</td>
+                    <td><span class="status-badge ${promo.is_active !== false ? 'success' : 'error'}">${promo.is_active !== false ? 'Activa' : 'Inactiva'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="app.editPromo('${promo.id}')"><i class="ph ph-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="app.deletePromo('${promo.id}')"><i class="ph ph-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (globalErr) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">Error fatal: ' + globalErr.message + '</td></tr>';
+        }
+    },
+
+    showPromoModal(promo = null) {
+        document.getElementById('promo-modal').style.display = 'flex';
+        document.getElementById('promo-form').reset();
+        
+        this.onPromoTypeChange();
+        this.onPromoScheduleChange();
+
+        if (promo) {
+            document.getElementById('promo-id').value = promo.id;
+            document.getElementById('promo-name').value = promo.name;
+            document.getElementById('promo-discount').value = promo.discount;
+            document.getElementById('promo-type').value = promo.type;
+            document.getElementById('promo-schedule-type').value = promo.schedule_type;
+            document.getElementById('promo-status').checked = promo.is_active !== false;
+            
+            this.onPromoTypeChange();
+            if (promo.type !== 'global') {
+                const selects = document.getElementById('promo-targets');
+                Array.from(selects.options).forEach(opt => {
+                    if ((promo.target_ids || []).includes(opt.value)) opt.selected = true;
+                });
+            }
+
+            this.onPromoScheduleChange();
+            if (promo.schedule_type === 'days_of_week') {
+                document.querySelectorAll('input[name="promo-day"]').forEach(cb => {
+                    if ((promo.days || []).includes(parseInt(cb.value))) cb.checked = true;
+                });
+            } else if (promo.schedule_type === 'date_range') {
+                document.getElementById('promo-start-date').value = promo.start_date || '';
+                document.getElementById('promo-end-date').value = promo.end_date || '';
+            }
+
+        } else {
+            document.getElementById('promo-id').value = '';
+            document.getElementById('promo-status').checked = true;
+        }
+    },
+
+    closePromoModal() {
+        document.getElementById('promo-modal').style.display = 'none';
+        document.getElementById('promo-form').reset();
+    },
+
+    editPromo(id) {
+        const promo = this.state.promotions.find(p => p.id === id);
+        if (promo) this.showPromoModal(promo);
+    },
+
+    async deletePromo(id) {
+        if (!confirm('¿Seguro que deseas eliminar esta promoción?')) return;
+        try {
+            await api.request('promotions.php?id=' + id, { method: 'DELETE' });
+            this.showToast('Promoción eliminada', 'success');
+            await this.initPromotions();
+        } catch (err) {
+            this.showToast('Error al eliminar', 'error');
+        }
+    },
+
+    onPromoTypeChange() {
+        const type = document.getElementById('promo-type').value;
+        const container = document.getElementById('promo-targets-container');
+        const select = document.getElementById('promo-targets');
+        
+        if (type === 'global') {
+            container.style.display = 'none';
+            select.innerHTML = '';
+        } else if (type === 'category') {
+            container.style.display = 'block';
+            select.innerHTML = '<option value="res">Res</option><option value="cerdo">Cerdo</option><option value="pollo">Pollo</option>';
+        } else if (type === 'product') {
+            container.style.display = 'block';
+            select.innerHTML = '';
+            this.state.products.forEach(p => {
+                select.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+            });
+        }
+    },
+
+    onPromoScheduleChange() {
+        const type = document.getElementById('promo-schedule-type').value;
+        document.getElementById('promo-days-container').style.display = type === 'days_of_week' ? 'flex' : 'none';
+        document.getElementById('promo-dates-container').style.display = type === 'date_range' ? 'grid' : 'none';
+    },
+
+    async initCombos() {
+        try {
+            this.state.combos = await api.get('combos');
+            this.state.products = await api.get('products');
+            this.renderCombos();
+
+            document.getElementById('combo-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData();
+                formData.append('id', document.getElementById('combo-id').value);
+                formData.append('name', document.getElementById('combo-name').value);
+                formData.append('discount', document.getElementById('combo-discount').value);
+                
+                const selectedProducts = Array.from(document.getElementById('combo-products').selectedOptions).map(opt => opt.value);
+                formData.append('products', JSON.stringify(selectedProducts));
+                formData.append('is_active', document.getElementById('combo-status').checked);
+                
+                const img = document.getElementById('combo-image').files[0];
+                if (img) formData.append('image', img);
+                
+                try {
+                    await api.postFormData('combos', formData);
+                    app.showToast('Combo guardado', 'success');
+                    app.closeComboModal();
+                    await this.initCombos();
+                } catch (err) {
+                    app.showToast('Error al guardar', 'error');
+                }
+            });
+        } catch (error) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '<div style="color:red; padding:20px;"><h3>Error crítico en initCombos:</h3><pre>' + error.message + '\n' + error.stack + '</pre></div>';
+        }
+    },
+
+    renderCombos() {
+        const tbody = document.getElementById('combos-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        
+        try {
+            if (!this.state.combos || !Array.isArray(this.state.combos)) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">Error: los combos no son un array (' + typeof this.state.combos + ')</td></tr>';
+                return;
+            }
+            if (this.state.combos.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay combos creados</td></tr>';
+                return;
+            }
+            this.state.combos.forEach(combo => {
+                const tr = document.createElement('tr');
+                
+                let includedNames = 'Ninguno';
+                try {
+                    includedNames = (combo.products || []).map(pid => {
+                        const p = this.state.products && this.state.products.find(prod => String(prod.id) === String(pid));
+                        return p ? p.name : 'Desc';
+                    }).join(', ');
+                } catch (e) {
+                    includedNames = 'Error al leer productos: ' + e.message;
+                }
+                
+                tr.innerHTML = `
+                    <td>
+                        <img src="../${combo.image || 'uploads/default-combo.jpg'}" alt="${combo.name}" class="product-thumb" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                    </td>
+                    <td>${combo.name}</td>
+                    <td>${combo.discount}%</td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${includedNames}">${includedNames}</td>
+                    <td><span class="status-badge ${combo.is_active !== false ? 'success' : 'error'}">${combo.is_active !== false ? 'Activo' : 'Inactivo'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" onclick="app.editCombo('${combo.id}')"><i class="ph ph-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="app.deleteCombo('${combo.id}')"><i class="ph ph-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (globalErr) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">Error fatal: ' + globalErr.message + '</td></tr>';
+        }
+    },
+
+    showComboModal(combo = null) {
+        document.getElementById('combo-modal').style.display = 'flex';
+        const form = document.getElementById('combo-form');
+        form.reset();
+        
+        // Populate products select
+        const selectEl = document.getElementById('combo-products');
+        selectEl.innerHTML = '';
+        this.state.products.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.textContent = p.name;
+            selectEl.appendChild(opt);
+        });
+        
+        if (combo) {
+            document.getElementById('combo-id').value = combo.id;
+            document.getElementById('combo-name').value = combo.name;
+            document.getElementById('combo-discount').value = combo.discount;
+            document.getElementById('combo-status').checked = combo.is_active !== false;
+            
+            // Select the options
+            Array.from(selectEl.options).forEach(opt => {
+                if ((combo.products || []).includes(opt.value)) {
+                    opt.selected = true;
+                }
+            });
+        } else {
+            document.getElementById('combo-id').value = '';
+            document.getElementById('combo-status').checked = true;
+        }
+    },
+
+    closeComboModal() {
+        document.getElementById('combo-modal').style.display = 'none';
+        document.getElementById('combo-form').reset();
+    },
+
+    editCombo(id) {
+        const combo = this.state.combos.find(c => c.id === id);
+        if (combo) this.showComboModal(combo);
+    },
+
+    async deleteCombo(id) {
+        if (!confirm('¿Seguro que deseas eliminar este combo?')) return;
+        try {
+            await api.del('combos', id);
+            this.showToast('Combo eliminado', 'success');
+            await this.initCombos();
+        } catch (err) {
+            this.showToast('Error al eliminar', 'error');
+        }
+    },
+
     async initProducts() {
         await this.loadProducts();
         document.getElementById('product-form').addEventListener('submit', async (e) => {

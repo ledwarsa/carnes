@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - C de Carne</title>
+    <!-- Favicon -->
+    <link rel="icon" href="uploads/logofull-sinfondo.png" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-info">
+                <span>Teléfono 300 000 00 00</span>
+                <span>Bogotá, Colombia</span>
+            </div>
+            <div class="top-cart">
+                <i class="ph ph-shopping-cart"></i>
+                <span class="cart-badge">1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="uploads/logofull-sinfondo.png" style="max-height: 120px;" alt="C de Carne">
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#inicio">INICIO</a>
+                <a href="quienes-somos.html">NOSOTROS</a>
+                <a href="index.html#productos">PRODUCTOS</a>
+                <a href="combos.html">COMBOS</a>
+                <a href="recetas.html">RECETAS Y TIPS</a>
+                <a href="contacto.html" class="active">CONTACTO</a>
+            </nav>
+            <a href="productos.html" class="btn btn-red-outline">Comprar ahora</a>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="hero" style="min-height: 40vh; padding-top: 150px; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('uploads/carnee.jpg') center/cover;">
+        <div class="container hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h1 style="font-size: 2.5rem; margin-top: 1rem;">Contáctenos</h1>
+            <p>Estamos aquí para escucharte y atender tus pedidos.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" style="padding: 5rem 0; background-color: var(--light-bg);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                
+                <!-- Info & Form -->
+                <div data-aos="fade-right">
+                    <div class="section-heading">
+                        <span class="subtitle">ESTAMOS PARA AYUDARTE</span>
+                        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Ponte en contacto con nosotros</h2>
+                        <p style="color: #666; margin-bottom: 2rem;">¿Tienes alguna pregunta, sugerencia o quieres hacer un pedido especial? Déjanos tus datos y nos comunicaremos contigo lo más pronto posible.</p>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: rgba(220, 38, 38, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                <i class="ph-fill ph-map-pin" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; color: var(--primary-dark);">Nuestra Ubicación</h4>
+                                <p style="margin: 0; color: #666;">Bogotá, Colombia</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: rgba(220, 38, 38, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                <i class="ph-fill ph-phone" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; color: var(--primary-dark);">Llámanos</h4>
+                                <p style="margin: 0; color: #666;">+57 300 000 00 00</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: rgba(220, 38, 38, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                                <i class="ph-fill ph-envelope-simple" style="font-size: 1.5rem;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; font-size: 1.1rem; color: var(--primary-dark);">Escríbenos</h4>
+                                <p style="margin: 0; color: #666;">contacto@cdecarne.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <form id="contactForm" style="background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Nombre completo</label>
+                            <input type="text" id="nombreContacto" placeholder="Tu nombre" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; outline: none;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Correo electrónico</label>
+                            <input type="email" id="correoContacto" placeholder="tu@correo.com" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; outline: none;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Mensaje</label>
+                            <textarea id="mensajeContacto" rows="4" placeholder="¿En qué te podemos ayudar?" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 4px; outline: none; resize: vertical;"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-red" style="width: 100%; justify-content: center;">Enviar Mensaje</button>
+                    </form>
+
+                    <script>
+                        document.getElementById('contactForm').addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            
+                            var nombre = document.getElementById('nombreContacto').value;
+                            var correo = document.getElementById('correoContacto').value;
+                            var mensaje = document.getElementById('mensajeContacto').value;
+                            
+                            // Check global settings for whatsapp number
+                            var telefono = (window.siteSettings && window.siteSettings.whatsapp_number) ? window.siteSettings.whatsapp_number : "573000000000"; 
+                            
+                            var texto = "Hola C de Carnes, soy " + nombre + " (" + correo + ").%0A%0A" + mensaje;
+                            var url = "https://wa.me/" + telefono + "?text=" + texto;
+                            
+                            window.open(url, '_blank');
+                        });
+                    </script>
+                </div>
+
+                <!-- Map -->
+                <div data-aos="fade-left" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <iframe src="https://maps.google.com/maps?q=4.618447,-74.116928&t=&z=18&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" style="border:0; min-height: 500px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer" id="contacto">
+        <div class="container footer-content">
+            <div class="footer-left">
+                <span class="subtitle" style="color:var(--primary); margin-bottom:1rem; display:block;">CONTÁCTANOS</span>
+                <p>Bogotá, Colombia</p>
+                <p>Tel 300 00 00</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon red"><i class="ph-fill ph-facebook-logo"></i></a>
+                    <a href="#" class="social-icon"><i class="ph-fill ph-instagram-logo"></i></a>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="logo">
+                    <img src="uploads/logofull-sinfondo.png" style="max-height: 180px;" alt="C de Carne">
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container bottom-flex">
+                <span>© Copyright 2026 By C de Carne</span>
+                <span>Terminos & Condiciones | Políticas de privacidad</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/cart.js?v=1"></script>
+    <script src="js/app.js?v=3"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+    </script>
+</body>
+</html>
