@@ -23,6 +23,7 @@ if ($method === 'POST') {
     $button_url = $_POST['button_url'] ?? '';
     $description = $_POST['description'] ?? '';
     $reference = $_POST['reference'] ?? '';
+    $category = $_POST['category'] ?? '';
     $is_sold_out = isset($_POST['is_sold_out']) ? filter_var($_POST['is_sold_out'], FILTER_VALIDATE_BOOLEAN) : false;
     $imagePath = '';
 
@@ -41,12 +42,13 @@ if ($method === 'POST') {
     if ($id) {
         $found = false;
         foreach ($products as &$product) {
-            if ($product['id'] === $id) {
+            if ($product['id'] == $id) {
                 if ($name !== '') $product['name'] = $name;
                 if ($price !== '') $product['price'] = $price;
                 if ($button_url !== '') $product['button_url'] = $button_url;
                 if ($description !== '') $product['description'] = $description;
                 if ($reference !== '') $product['reference'] = $reference;
+                if ($category !== '') $product['category'] = $category;
                 if (isset($_POST['is_sold_out'])) $product['is_sold_out'] = $is_sold_out;
                 if ($imagePath !== '') {
                     // Delete old image if it exists
@@ -73,6 +75,7 @@ if ($method === 'POST') {
             'price' => $price,
             'description' => $description,
             'reference' => $reference,
+            'category' => $category,
             'is_sold_out' => $is_sold_out,
             'button_url' => $button_url,
             'image' => $imagePath

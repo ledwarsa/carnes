@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C de Carne - La más alta calidad</title>
+    <!-- Favicon -->
+    <link rel="icon" href="uploads/logofull-sinfondo.png" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -18,7 +22,7 @@
         <div class="container top-bar-content">
             <div class="top-info">
                 <span>Teléfono 300 000 00 00</span>
-                <span>W 38th St New York, NY 10018</span>
+                <span>Bogotá, Colombia</span>
             </div>
             <div class="top-cart">
                 <i class="ph ph-shopping-cart"></i>
@@ -31,11 +35,7 @@
     <header class="navbar">
         <div class="container nav-content">
             <a href="#" class="logo">
-                <div class="logo-icon"><img src="https://cdn-icons-png.flaticon.com/512/3233/3233015.png" style="filter: brightness(0) invert(1); width: 40px;" alt="icon"></div>
-                <div class="logo-text">
-                    <span class="c-de">C <small>DE</small></span>
-                    <span class="carne">CARNE</span>
-                </div>
+                <img src="uploads/logofull-sinfondo.png" style="max-height: 120px;" alt="C de Carne">
             </a>
             <nav class="nav-links">
                 <a href="#inicio" class="active">INICIO</a>
@@ -44,18 +44,17 @@
                 <a href="#recetas">RECETAS Y TIPS</a>
                 <a href="#contacto">CONTACTO</a>
             </nav>
-            <a href="#comprar" class="btn btn-red-outline">Comprar ahora</a>
+            <a href="productos.html" class="btn btn-red-outline">Comprar ahora</a>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section id="inicio" class="hero">
-        <div class="hero-overlay"></div>
-        <div class="container hero-content">
-            <h2>Disfruta de la carne de la</h2>
-            <h1>más alta calidad</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
-            <a href="#saber-mas" class="btn btn-red">Saber más</a>
+        <div class="container hero-content" data-aos="fade-up" data-aos-duration="1000">
+            <h2>C DE CARNES</h2>
+            <h1>Del origen a tu mesa</h1>
+            <p>En C de Carnes somos una empresa dedicada a la producción, comercialización y distribución de carne de res, cerdo y pollo, comprometida con ofrecer productos de alta calidad, frescos, seguros y confiables.</p>
+            <a href="productos.html" class="btn btn-red">COMPRAR AHORA</a>
         </div>
     </section>
 
@@ -70,58 +69,63 @@
 
             <div class="categories-grid">
                 <!-- Res -->
-                <div class="category-card">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="cat-image">
-                        <img src="https://images.unsplash.com/photo-1603048297172-c92544798d5e?auto=format&fit=crop&w=600&q=80" alt="Res">
+                        <img src="uploads/res.jpg" alt="Res">
                     </div>
                     <div class="cat-icon"><i class="ph-fill ph-cow"></i></div>
                     <div class="cat-body">
                         <h3>RES</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
-                        <a href="#" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
+                        <p>Cortes jugosos y llenos de sabor, ideales para tus asados familiares o platos especiales.</p>
+                        <a href="cortes-de-res" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Cerdo -->
-                <div class="category-card">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="cat-image">
-                        <img src="https://images.unsplash.com/photo-1615937657715-bc0b6b7a6375?auto=format&fit=crop&w=600&q=80" alt="Cerdo">
+                        <img src="uploads/cerdo.jpg" alt="Cerdo">
                     </div>
                     <div class="cat-icon"><i class="ph-fill ph-piggy-bank"></i></div>
                     <div class="cat-body">
                         <h3>CERDO</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
-                        <a href="#" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
+                        <p>Textura suave y versatilidad inigualable. Perfecto para cualquier receta que imagines.</p>
+                        <a href="cortes-de-cerdo" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
                     </div>
                 </div>
                 <!-- Pollo -->
-                <div class="category-card">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="cat-image">
-                        <img src="https://images.unsplash.com/photo-1604503468506-a8da13d82791?auto=format&fit=crop&w=600&q=80" alt="Pollo">
+                        <img src="uploads/polloo.jpg" alt="Pollo">
                     </div>
                     <div class="cat-icon"><i class="ph-fill ph-bird"></i></div>
                     <div class="cat-body">
                         <h3>POLLO</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
-                        <a href="#" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
+                        <p>Fresco, saludable y delicioso. La opción más versátil para tu día a día.</p>
+                        <a href="cortes-de-pollo" class="link-red">VER TODO <i class="ph ph-arrow-right"></i></a>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Aquí irían los productos inyectados por app.js -->
-            <div id="products-catalog-container" style="margin-top: 4rem;">
-                 <h3 style="text-align: center; margin-bottom: 2rem;">Catálogo Completo</h3>
-                 <div id="products-grid" class="products-grid"></div>
             </div>
         </div>
     </section>
 
+
+
     <!-- Por que elegirnos -->
     <section class="why-us-section">
         <div class="container why-us-content">
-            <div class="why-text-col">
-                <span class="subtitle">POR QUE ELEGIRNOS</span>
-                <h2>Nos esforzamos al máximo para producir una carne pura y de alta calidad.</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="why-text-col" data-aos="fade-right">
+                <span class="subtitle">¿POR QUÉ ELEGIR C DE CARNES?</span>
+                <h2>Porque conocemos el origen de lo que vendemos.</h2>
+                <p>En C de Carnes integramos diferentes etapas de la cadena para ofrecer una experiencia de compra basada en: Origen + Calidad + Trazabilidad + Salubridad + Empaque + Transporte + Confianza. Queremos que nuestros clientes tengan la tranquilidad de saber que detrás de cada pedido existe un proceso responsable y controlado.</p>
+                
+                <div class="highlight-box" style="background: rgba(220, 38, 38, 0.08); border-left: 4px solid var(--primary); padding: 1.5rem; margin: 1.5rem 0; border-radius: 4px;">
+                    <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="ph-fill ph-star"></i> Ganadería Propia
+                    </h4>
+                    <p style="margin-bottom: 0; font-size: 0.95rem; color: #444; font-weight: 500;">
+                        Tenemos ganado propio de res, cerdo y pollo. Por eso podemos controlar de principio a fin y garantizar la mejor calidad en cada corte de carne.
+                    </p>
+                </div>
                 
                 <div class="stats-box">
                     <div class="stat-item">
@@ -139,11 +143,11 @@
                 </div>
                 <a href="#" class="link-red mt-3">SABER MÁS <i class="ph ph-arrow-right"></i></a>
             </div>
-            <div class="why-img-col">
+            <div class="why-img-col" data-aos="fade-left" data-aos-duration="1000">
                 <div class="collage">
-                    <img src="https://images.unsplash.com/photo-1598514982205-f36b96d1e8d4?auto=format&fit=crop&w=500" alt="Ribs" class="img-1">
-                    <img src="https://images.unsplash.com/photo-1607623814075-e51df1bd682f?auto=format&fit=crop&w=500" alt="Knife" class="img-2">
-                    <img src="https://images.unsplash.com/photo-1544025162-817abdf40c5f?auto=format&fit=crop&w=500" alt="Slices" class="img-3">
+                    <img src="uploads/carnee.jpg" alt="Carne" class="img-1">
+                    <img src="uploads/costillas.jpg" alt="Costillas" class="img-2">
+                    <img src="uploads/mondongo.jpg" alt="Mondongo" class="img-3">
                 </div>
             </div>
         </div>
@@ -152,10 +156,10 @@
     <!-- Origen -->
     <section class="origin-section">
         <div class="container origin-content">
-            <div class="origin-text">
-                <span class="subtitle">ORIGEN DE NUESTROS PRODUCTOS</span>
-                <h2>Cuidamos cada etapa, porque cada detalle importa.</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+            <div class="origin-text" data-aos="fade-right">
+                <span class="subtitle">NUESTRA PROMESA</span>
+                <h2>Sabemos de dónde viene. Cuidamos cómo llega.</h2>
+                <p>Desde nuestros animales hasta tu mesa, trabajamos para que cada producto conserve los estándares de calidad que nuestros clientes esperan.</p>
                 
                 <div class="timeline">
                     <div class="timeline-item">
@@ -195,21 +199,21 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="quote-icon">“</div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-                    <h4>Person Name</h4>
-                    <span class="location">Location</span>
+                    <p>La mejor carne que he probado. Los cortes de res siempre están frescos y su sabor es espectacular. ¡Totalmente recomendados!</p>
+                    <h4>Carlos Rodríguez</h4>
+                    <span class="location">Cliente Frecuente</span>
                 </div>
                 <div class="testimonial-card">
                     <div class="quote-icon">“</div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-                    <h4>Person Name</h4>
-                    <span class="location">Location</span>
+                    <p>Excelente servicio y calidad inmejorable. El cerdo que venden aquí hace que mis asados sean los mejores del barrio.</p>
+                    <h4>María Fernanda Gómez</h4>
+                    <span class="location">Amante de los asados</span>
                 </div>
                 <div class="testimonial-card">
                     <div class="quote-icon">“</div>
-                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-                    <h4>Person Name</h4>
-                    <span class="location">Location</span>
+                    <p>Llevo meses comprando mis productos en C de Carne y nunca me decepcionan. La frescura y atención son de primera.</p>
+                    <h4>Juan Pablo Martínez</h4>
+                    <span class="location">Chef Local</span>
                 </div>
             </div>
             <div class="dots">
@@ -222,11 +226,10 @@
 
     <!-- Footer -->
     <footer class="main-footer" id="contacto">
-        <div class="footer-overlay"></div>
         <div class="container footer-content">
             <div class="footer-left">
                 <span class="subtitle" style="color:var(--primary); margin-bottom:1rem; display:block;">CONTÁCTANOS</span>
-                <p>W 38th St New York, NY 10018</p>
+                <p>Bogotá, Colombia</p>
                 <p>Tel 300 00 00</p>
                 <div class="social-links">
                     <a href="#" class="social-icon red"><i class="ph-fill ph-facebook-logo"></i></a>
@@ -236,11 +239,7 @@
             </div>
             <div class="footer-right">
                 <div class="logo">
-                    <div class="logo-icon"><img src="https://cdn-icons-png.flaticon.com/512/3233/3233015.png" style="filter: brightness(0) invert(1); width: 60px;" alt="icon"></div>
-                    <div class="logo-text">
-                        <span class="c-de">C <small>DE</small></span>
-                        <span class="carne" style="color:var(--primary);">CARNE</span>
-                    </div>
+                    <img src="uploads/logofull-sinfondo.png" style="max-height: 180px;" alt="C de Carne">
                 </div>
             </div>
         </div>
@@ -252,6 +251,16 @@
         </div>
     </footer>
 
-    <script src="js/app.js"></script>
+    <script src="js/cart.js?v=1"></script>
+    <script src="js/app.js?v=2"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+        });
+    </script>
 </body>
 </html>

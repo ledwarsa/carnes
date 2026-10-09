@@ -167,7 +167,7 @@ a {
     position: relative;
     height: 100vh;
     min-height: 600px;
-    background: url('https://images.unsplash.com/photo-1551028150-64b9e398f678?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+    background: url('../uploads/baner carne.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,7 +192,7 @@ a {
 /* Categories */
 .categories-section {
     padding: 6rem 0;
-    background-color: var(--bg-white);
+    background-color: var(--bg-light);
 }
 .categories-section h2 { font-size: 2.2rem; }
 .categories-grid {
@@ -243,14 +243,25 @@ a {
     position: relative;
     height: 500px;
 }
-.collage img { position: absolute; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-.collage .img-1 { width: 60%; height: 200px; top: 0; left: 0; }
-.collage .img-2 { width: 50%; height: 250px; top: 50px; right: 0; }
-.collage .img-3 { width: 65%; height: 200px; bottom: 0; left: 10%; }
+.collage img { 
+    position: absolute; 
+    object-fit: cover; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+    border-radius: 12px;
+    border: 5px solid white;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.collage img:hover {
+    transform: translateY(-10px) scale(1.03);
+    z-index: 10 !important;
+}
+.collage .img-1 { width: 55%; height: 220px; top: 0; left: 0; z-index: 1; }
+.collage .img-2 { width: 55%; height: 260px; top: 40px; right: 0; z-index: 2; }
+.collage .img-3 { width: 60%; height: 220px; bottom: 20px; left: 15%; z-index: 3; }
 
 /* Origin */
 .origin-section {
-    background: #0a0a0a url('https://images.unsplash.com/photo-1615937657715-bc0b6b7a6375?auto=format&fit=crop&w=1000') right center/50% 100% no-repeat;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../uploads/banner 3.jpg') center/cover no-repeat;
     padding: 6rem 0;
     color: white;
 }
@@ -297,7 +308,7 @@ a {
 /* Footer */
 .main-footer {
     position: relative;
-    background: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1920') center/cover no-repeat;
+    background: url('../uploads/baner carne 1.jpg') center/cover no-repeat;
     color: white;
 }
 .footer-overlay {
@@ -308,8 +319,15 @@ a {
     padding: 4rem 2rem;
     display: flex; justify-content: space-between; align-items: center;
 }
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+}
 .footer-left p { margin-bottom: 0.5rem; color: #ccc; }
-.social-links { display: flex; gap: 0.5rem; margin-top: 1rem; }
+.social-links { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: center; }
 .social-icon {
     width: 35px; height: 35px;
     background: #333; color: white;

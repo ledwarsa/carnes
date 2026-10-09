@@ -97,6 +97,7 @@ const app = {
 
         switch(moduleName) {
             case 'productos': await this.initProducts(); break;
+            case 'pedidos': await this.initPedidos(); break;
             case 'usuarios': await this.initUsers(); break;
             case 'seo': await this.initSEO(); break;
             case 'scripts': await this.initScripts(); break;
@@ -115,6 +116,7 @@ const app = {
             const price = document.getElementById('prod-price').value;
             const desc = document.getElementById('prod-description').value;
             const ref = document.getElementById('prod-reference').value;
+            const cat = document.getElementById('prod-category').value;
             const isSoldOut = document.getElementById('prod-sold-out').checked;
             const url = document.getElementById('prod-url').value;
             const fileInput = document.getElementById('prod-image');
@@ -125,6 +127,7 @@ const app = {
             formData.append('price', price);
             formData.append('description', desc);
             formData.append('reference', ref);
+            formData.append('category', cat);
             formData.append('is_sold_out', isSoldOut);
             formData.append('button_url', url);
             if (fileInput.files[0]) {
@@ -137,16 +140,27 @@ const app = {
                 this.hideProductForm();
                 this.loadProducts();
             } catch(e) {
+                console.error(e);
+                alert('Error al guardar: ' + e.message);
                 this.showToast('Error al guardar', 'error');
             }
         });
     },
 
-    async loadProducts() {
-        this.state.products = await api.get('products');
+    async loadProducts(page = 1) {
+        if (!this.state.products || this.state.products.length === 0 || page === 1) {
+            this.state.products = await api.get('products');
+        }
+        
+        const perPage = 10;
+        const totalPages = Math.ceil(this.state.products.length / perPage);
+        const currentPage = page;
+        const start = (currentPage - 1) * perPage;
+        const pagedProducts = this.state.products.slice(start, start + perPage);
+
         const tbody = document.getElementById('products-list');
         tbody.innerHTML = '';
-        this.state.products.forEach(p => {
+        pagedProducts.forEach(p => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${p.image ? '<img src="../' + p.image + '" class="item-image">' : 'Sin imagen'}</td>
@@ -154,6 +168,7 @@ const app = {
                     ${p.name}
                     ${p.is_sold_out ? '<span style="font-size:0.75rem; background:var(--primary); color:white; padding:0.1rem 0.4rem; border-radius:4px; margin-left:0.5rem; white-space:nowrap;">Agotado</span>' : ''}
                 </td>
+                <td><span style="text-transform: capitalize; padding: 0.2rem 0.5rem; background:#f0f0f0; color:#333; border-radius:4px; font-size:0.8rem; font-weight:600;">${p.category || 'res'}</span></td>
                 <td>${p.price}</td>
                 <td class="actions">
                     <button class="btn btn-icon" onclick="app.editProduct('${p.id}')"><i class="ph ph-pencil-simple"></i></button>
@@ -162,13 +177,29 @@ const app = {
             `;
             tbody.appendChild(tr);
         });
+
+        // Render Pagination
+        const pControls = document.getElementById('pagination-controls');
+        if(pControls) {
+            pControls.innerHTML = '';
+            for(let i=1; i<=totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = i === currentPage ? 'btn btn-primary' : 'btn btn-red-outline';
+                btn.style.padding = '0.4rem 0.8rem';
+                btn.textContent = i;
+                btn.onclick = () => this.loadProducts(i);
+                pControls.appendChild(btn);
+            }
+        }
     },
 
     showProductForm() {
         document.getElementById('product-form').reset();
         document.getElementById('prod-id').value = '';
         document.getElementById('form-title').textContent = 'Crear Producto';
-        document.getElementById('product-form-container').style.display = 'block';
+        document.getElementById('current-image-preview').style.display = 'none';
+        document.getElementById('prod-current-img').src = '';
+        document.getElementById('product-form-container').style.display = 'flex';
     },
     
     hideProductForm() {
@@ -176,16 +207,27 @@ const app = {
     },
 
     editProduct(id) {
-        const p = this.state.products.find(x => x.id === id);
-        if(!p) return;
+        const p = this.state.products.find(x => String(x.id) === String(id));
+        if(!p) {
+            alert('Error: Producto no encontrado en memoria. Por favor recarga la página.');
+            return;
+        }
         this.showProductForm();
         document.getElementById('form-title').textContent = 'Editar Producto';
         document.getElementById('prod-id').value = p.id;
         document.getElementById('prod-name').value = p.name;
         document.getElementById('prod-price').value = p.price;
+        
+        if (p.image) {
+            document.getElementById('current-image-preview').style.display = 'block';
+            document.getElementById('prod-current-img').src = '../' + p.image;
+        } else {
+            document.getElementById('current-image-preview').style.display = 'none';
+        }
         document.getElementById('prod-description').value = p.description || '';
         document.getElementById('prod-reference').value = p.reference || '';
-        document.getElementById('prod-sold-out').checked = p.is_sold_out || false;
+        document.getElementById('prod-category').value = p.category || 'res';
+        document.getElementById('prod-sold-out').checked = p.is_sold_out === true || p.is_sold_out === "true" || p.is_sold_out === 1;
         document.getElementById('prod-url').value = p.button_url || '';
     },
 
@@ -198,6 +240,103 @@ const app = {
             } catch(e) {
                 this.showToast('Error', 'error');
             }
+        }
+    },
+
+    // --- PEDIDOS ---
+    async initPedidos() {
+        await this.loadPedidos();
+    },
+
+    async loadPedidos() {
+        try {
+            const list = document.getElementById('orders-list');
+            list.innerHTML = '<tr><td colspan="5" style="text-align:center;">Cargando pedidos...</td></tr>';
+            const orders = await api.get('orders');
+            
+            if(orders.length === 0) {
+                list.innerHTML = '<tr><td colspan="5" style="text-align:center;">No hay pedidos recientes.</td></tr>';
+                return;
+            }
+            
+            list.innerHTML = orders.map(o => `
+                <tr>
+                    <td>${new Date(o.date).toLocaleString()}</td>
+                    <td>
+                        <strong>${o.customer.name}</strong><br>
+                        <small>${o.customer.idNum}</small>
+                    </td>
+                    <td>${o.customer.phone}</td>
+                    <td style="color:var(--primary); font-weight:bold;">$${o.total.toLocaleString('es-CO')}</td>
+                    <td>
+                        <button class="btn btn-icon" onclick="app.viewPedido('${o.id}')" title="Ver Detalles">
+                            <i class="ph ph-eye"></i>
+                        </button>
+                        <button class="btn btn-icon btn-danger" onclick="app.deletePedido('${o.id}')" title="Eliminar">
+                            <i class="ph ph-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            window.ordersData = orders; // Save for view modal
+        } catch(e) {
+            console.error(e);
+            this.showToast('Error al cargar pedidos', 'error');
+        }
+    },
+    
+    viewPedido(id) {
+        const order = window.ordersData.find(o => o.id === id);
+        if(!order) return;
+        
+        let details = `<div style="padding:1rem;">
+            <h3>Detalles del Cliente</h3>
+            <p><strong>Nombre:</strong> ${order.customer.name}</p>
+            <p><strong>Identificación:</strong> ${order.customer.idNum}</p>
+            <p><strong>Celular:</strong> ${order.customer.phone}</p>
+            <p><strong>Dirección:</strong> ${order.customer.address}</p>
+            <p><strong>Notas:</strong> ${order.customer.notes || 'Ninguna'}</p>
+            <hr style="margin:1rem 0;">
+            <h3>Productos Solicitados</h3>
+            <ul>
+        `;
+        
+        order.items.forEach(item => {
+            details += `<li>${item.name} (x${item.quantity}) - $${(item.price * item.quantity).toLocaleString('es-CO')}</li>`;
+        });
+        
+        details += `</ul>
+            <h3 style="margin-top:1rem; color:var(--primary);">TOTAL: $${order.total.toLocaleString('es-CO')}</h3>
+        </div>`;
+        
+        // Use a simple alert or modal for now, let's use the form modal container if possible
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0'; modal.style.left = '0'; modal.style.width = '100%'; modal.style.height = '100%';
+        modal.style.background = 'rgba(0,0,0,0.5)';
+        modal.style.display = 'flex'; modal.style.alignItems = 'center'; modal.style.justifyContent = 'center';
+        modal.style.zIndex = '1000';
+        
+        modal.innerHTML = `
+            <div style="background:#fff; padding:2rem; border-radius:8px; max-width:500px; width:90%; position:relative;">
+                <button onclick="this.parentElement.parentElement.remove()" style="position:absolute; top:1rem; right:1rem; background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
+                <h2>Pedido ${order.id}</h2>
+                ${details}
+            </div>
+        `;
+        document.body.appendChild(modal);
+    },
+
+    async deletePedido(id) {
+        if(!confirm('¿Estás seguro de que deseas eliminar este pedido?')) return;
+        try {
+            await api.del('orders', id);
+            this.showToast('Pedido eliminado');
+            this.loadPedidos();
+        } catch(e) {
+            console.error(e);
+            this.showToast('Error al eliminar pedido', 'error');
         }
     },
 

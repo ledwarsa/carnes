@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /carnes/
+
+# Si el archivo o directorio existe, no reescribir
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirigir a URL sin slash final (para no romper las rutas relativas de CSS/JS)
+RewriteRule ^(cortes-de-[a-z]+)/$ $1 [L,R=301]
+
+# URLs amigables para las categorías
+RewriteRule ^cortes-de-([a-z]+)$ categoria.html?cat=$1 [L,QSA]

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
+    // loadProducts() is now embedded in index.html to avoid caching issues
 });
 
 async function loadProducts() {
@@ -7,10 +7,14 @@ async function loadProducts() {
     if (!grid) return;
     
     try {
+        console.log("Fetching products from api/products.php...");
         const response = await fetch('api/products.php');
-        if (!response.ok) throw new Error('Error al conectar con la API');
+        if (!response.ok) {
+            throw new Error('HTTP status ' + response.status);
+        }
         
         const products = await response.json();
+        console.log("Products loaded:", products.length);
         
         if (products.length === 0) {
             grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999;">No hay productos en el catálogo aún.</p>';
@@ -46,7 +50,7 @@ async function loadProducts() {
         
     } catch (error) {
         console.error(error);
-        grid.innerHTML = '<p style="color:red; grid-column:1/-1; text-align:center;">Error al cargar el catálogo.</p>';
+        grid.innerHTML = `<p style="color:red; grid-column:1/-1; text-align:center;">Error al cargar el catálogo: ${error.message}</p>`;
     }
 }
 
